@@ -1,1 +1,59 @@
 /* You can add global styles to this file, and also import other style files */
+
+
+.talign-right {
+    text-align:  right; 
+}
+
+
+#sidebar {
+    font-size: 14px; 
+}
+
+.char-wrapper {
+    display: block;
+    margin : 10px 0px;
+}
+
+.char-pic-wrapper {
+    position: relative; 
+}
+
+.char-pic-wrapper .char-pic img {
+    width: 100%;
+    display: block;
+}
+
+.char-pic-wrapper .char-name {
+    position: absolute;
+    left: 0;
+    right: 0 ; 
+    bottom: 0 ;
+    padding:10px; 
+    background: rgba(0, 0, 0, 0.3); 
+    color: white;
+    font-size: 14px; 
+    
+}
+
+
+.list-item-wrapper {
+    background: #333;
+    padding: 3px;    
+    height: 150px; 
+
+}
+
+.list-item-wrapper .list-item{
+    padding: 5px 1px;
+    color: white; 
+    border-bottom: 1px solid rgba(100, 100, 100, 0.5);
+
+    margin-right: 0px;
+    margin-left: 0px;
+    font-size: 12px; 
+}
+.list-item-wrapper .list-item:last-child {
+    border-bottom: 0 none;
+}
+

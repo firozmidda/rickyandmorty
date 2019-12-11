@@ -1,21 +1,88 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="container-fluid">
+    <div class="row" id="sidebar">
+        <div class="col-md-3 col-lg-2"> 
+            
+            <h2> Filters </h2>
 
-<router-outlet></router-outlet>
+            <div class="border-black">
+                <h5> Species </h5>
+                <div class="" *ngFor="let species of speciesFilterList;"> 
+                    <input type="checkbox"   (change) ="updateSpeciesFilter(species)"/> 
+                    {{ species}}
+                </div>                
+            </div>
+
+            <br/> 
+
+            <div class="border-black">
+                <h5> Gender </h5>                
+                <div class="" *ngFor="let gender of genderFilterList;"> 
+                    <input type="checkbox"   (change) ="updateGenderFilter(gender)"/> 
+                    {{ gender}}
+                </div>                            
+            </div>
+
+            <br/>
+
+            <div class="border-black">
+                <h5> Origin </h5>
+                <div class="" *ngFor="let origin of originFilterList;"> 
+                        <input type="checkbox"   (change) ="updateOriginFilter(origin)"/> 
+                        {{ origin }}
+                </div>
+            </div>
+
+
+
+        
+        </div>
+        <div class="col-md-9 col-lg-10">
+
+          <div class="row">
+              <div *ngFor="let character of screenListView" class="col-md-3 col-sm-6 col-6">
+                  <div class="char-wrapper">  
+                      <div class="char-pic-wrapper">
+                        <div class="char-pic">
+                            <img src="{{character['image']}}"/>
+                        </div>
+                        <div class="char-name">
+                            <h4>
+                                {{ character['name']}}
+                            </h4>
+                            <div >
+                                id: {{ character['id']}}  &nbsp;  &middot;  &nbsp;
+                                created : {{ parseCreated (character['created']) }} 
+                            </div>
+                            
+                        </div>
+          
+                      </div>
+
+                      <div class="list-item-wrapper">
+                         <div class="list-item row">
+                             <div class="col-md-3"> Species </div>
+                             <div class="col-md-9 talign-right"> {{ character['species'] }}  </div>
+                         </div>     
+                         <div class="list-item row">
+                            <div class="col-md-3"> Gender </div>
+                            <div class="col-md-9 talign-right"> {{ character['gender'] }}  </div>
+                         </div>     
+                         
+                         <div class="list-item row">
+                            <div class="col-md-3"> Origin </div>
+                            <div class="col-md-9 talign-right"> {{ character['origin']['name'] }}  </div>
+                         </div>     
+                         
+                      </div>
+
+                  </div>
+               </div>   
+               
+          </div>
+
+        </div>
+    </div>
+</div>
+
+
+
