@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 export class AppService {
 
   
+  limit  = 20;
   characterDataEvent:Subject<any>;
 
   characterList = []; 
@@ -53,7 +54,7 @@ export class AppService {
     } else {
      
       let promiseArr = []; 
-      for (  let i = 0 ; i < 10; i ++) {
+      for (  let i = 1 ; i < 10; i ++) {
         let url = "https://rickandmortyapi.com/api/character/?page=" + i;
 
         promiseArr.push (  
@@ -64,7 +65,7 @@ export class AppService {
 
       Promise.all( promiseArr ).then( ( resp) => {
         for ( let i = 0 ; i < resp.length ; i ++) {
-            this.appendToList (  resp[i].results ); 
+            this.appendToList ( i, resp[i].results ); 
         }
         localStorage.setItem('characters', JSON.stringify ( this.characterList )); 
         
@@ -75,8 +76,11 @@ export class AppService {
 
   }
 
-  appendToList ( data ) {
+  appendToList ( page,  data ) {
+    let offset = page * this.limit; 
     for (  let i = 0 ; i < data.length; i ++) {
+       data[i].index = offset + i;  
+      //data[i].index = offset + parseInt(data[i]);
        this.characterList.push( data[i] ); 
     }    
   }

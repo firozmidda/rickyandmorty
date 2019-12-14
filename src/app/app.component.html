@@ -6,37 +6,102 @@
 
             <div class="border-black">
                 <h5> Species </h5>
-                <div class="" *ngFor="let species of speciesFilterList;"> 
-                    <input type="checkbox"   (change) ="updateSpeciesFilter(species)"/> 
+                <div class="" *ngFor="let species of subList(speciesFilterList, 0,3) ; let i = index" > 
+                    <input  type="checkbox"   (change) ="updateSpeciesFilter(species)"/> 
                     {{ species}}
-                </div>                
+                </div>
+                
+                <div *ngIf="showMoreSpecies">
+                    <div class="" *ngFor="let species of subList(speciesFilterList, 3) ; let i = index" > 
+                        <input  type="checkbox"   (change) ="updateSpeciesFilter(species)"/> 
+                        {{ species}}
+                    </div> 
+                </div>
+                          
+                <a *ngIf="!showMoreSpecies" (click)="toggleSpeciesFilter( true )" href="javascript:void(0)" > View More Species </a>   
+                <a *ngIf="showMoreSpecies" (click)="toggleSpeciesFilter( false)" href="javascript:void(0)" > Show Less  </a>   
+
+
             </div>
 
             <br/> 
 
             <div class="border-black">
                 <h5> Gender </h5>                
-                <div class="" *ngFor="let gender of genderFilterList;"> 
+                <div class="" *ngFor="let gender of subList(genderFilterList, 0,2);"> 
                     <input type="checkbox"   (change) ="updateGenderFilter(gender)"/> 
                     {{ gender}}
-                </div>                            
+                </div> 
+                
+                <div *ngIf="showMoreGenders">
+                    <div class="" *ngFor="let gender of subList(genderFilterList, 2);"> 
+                        <input type="checkbox"   (change) ="updateGenderFilter(gender)"/> 
+                        {{ gender}}
+                    </div> 
+                </div>
+                          
+                <a *ngIf="!showMoreGenders" (click)="toggleGendersFilter( true )" href="javascript:void(0)" > View More Gender  </a>   
+                <a *ngIf="showMoreGenders" (click)="toggleGendersFilter( false)" href="javascript:void(0)" > Show Less  </a>   
+
             </div>
 
             <br/>
 
             <div class="border-black">
                 <h5> Origin </h5>
-                <div class="" *ngFor="let origin of originFilterList;"> 
+                <div class="" *ngFor="let origin of subList(originFilterList, 0, 3);"> 
                         <input type="checkbox"   (change) ="updateOriginFilter(origin)"/> 
                         {{ origin }}
                 </div>
             </div>
 
+            <div *ngIf="showMoreOrigins">
+                <div class="" *ngFor="let origin of subList(originFilterList, 3);"> 
+                    <input type="checkbox"   (change) ="updateOriginFilter(origin)"/> 
+                    {{ origin }}
+                </div> 
+            </div>
+                      
+            <a *ngIf="!showMoreOrigins" (click)="toggleOriginsFilter( true )" href="javascript:void(0)" > View More Origins  </a>   
+            <a *ngIf="showMoreOrigins" (click)="toggleOriginsFilter( false)" href="javascript:void(0)" > Show Less  </a>   
 
 
         
         </div>
         <div class="col-md-9 col-lg-10">
+          
+          <div class="row">
+                <div class="col-md-12">
+                    <h4> Selected Filters </h4>
+                </div>
+                <div class="col-md-13">
+                    <div class="filter-popup">
+                        <button type="button" class="btn btn-dark"
+                        (click) = "deleteFilterFrom(name.name, name.value)" 
+                        *ngFor="let name of selectedFilterScreen"> 
+                            {{ name.value }} &nbsp; 
+                            <i> x </i>
+                        </button>   
+                    </div>
+                </div>
+          </div>  
+
+          <div class="row">
+            <div class="col-md-8 col-sm-12 col-12">
+                <div class="form-group">
+                    <label> Search By Name </label> <br/>
+                    <input type="text" class="form-input" name="searchText" [(ngModel)]="searchText" (keyup)="searchByName()" />
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-12 talign-right">
+                <br/>
+                <label> Sort By Id: </label> &nbsp; 
+                <select  name="sortOrder" [(ngModel)]="sortOrder" (change)="sortOrderChanged()">
+                    <option value="asc"> Ascending  </option>
+                    <option value="desc">  Descending </option>
+                </select>
+            </div>
+          </div>
 
           <div class="row">
               <div *ngFor="let character of screenListView" class="col-md-3 col-sm-6 col-6">
@@ -79,6 +144,7 @@
                </div>   
                
           </div>
+        
 
         </div>
     </div>

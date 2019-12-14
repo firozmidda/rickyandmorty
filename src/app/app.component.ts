@@ -25,6 +25,21 @@ export class AppComponent implements OnInit {
   originFilter = {};
   genderFilter = {}; 
 
+  // sort order 
+  sortOrder;
+
+
+  // show hide flags
+  showMoreSpecies = false;
+  showMoreGenders = false;
+  showMoreOrigins = false;
+
+  //search Text 
+  searchText
+
+  // selected Filter Screen 
+  selectedFilterScreen = [];
+  
   
   constructor ( private http:HttpClient, private appSvc: AppService) {
     //this.loadData (); 
@@ -53,7 +68,16 @@ export class AppComponent implements OnInit {
     this.refreshListView(); 
 
   }
+  deleteFilterFrom ( name , value ) {
+    if( name == "species") {
+      this.updateSpeciesFilter ( value );
+    } else if ( name == "gender") { 
+      this.updateGenderFilter ( value );
+    } else if ( name == "origin") {
+      this.updateOriginFilter ( value );
+    }
 
+  }
 
   updateSpeciesFilter ( value ) {
     this.speciesFilter[value] = !this.speciesFilter[value]; 
@@ -103,13 +127,31 @@ export class AppComponent implements OnInit {
 
   }
 
+  addToFilterScreen ( list , name ) {
+  
+    for (  let i = 0 ; i < list.length; i ++) {
+      this.selectedFilterScreen.push({name: name , 
+                                     value: list[i] });
+    }
+
+
+    
+  }
+
   applyFilters ( item ) {
 
+    this.selectedFilterScreen = []; 
+  
     let matchCount = 0, filterCount = 0 ;
+
     let speciesArr  = this.getKeys ( this.speciesFilter ); 
     let genderArr  = this.getKeys ( this.genderFilter ); 
     let originArr  = this.getKeys ( this.originFilter ); 
 
+    this.addToFilterScreen (  speciesArr , "species"); 
+    this.addToFilterScreen (  originArr , "origin"); 
+    this.addToFilterScreen (  genderArr , "gender"); 
+    
     
     // for species; 
     if( speciesArr.length > 0 ) {
@@ -134,6 +176,8 @@ export class AppComponent implements OnInit {
         matchCount ++; 
       }
     }
+
+    console.log ( this.selectedFilterScreen );
 
     if( filterCount == matchCount ) {
       return true; 
@@ -172,21 +216,51 @@ export class AppComponent implements OnInit {
      this.screenListView = []; 
      for (  let i = 0 ; i < this.characterList.length; i ++ ) {
 
-       let item = this.characterList[i]; 
+      let item = this.characterList[i]; 
       
-       if ( this.applyFilters( item ) ) {
-        this.screenListView.push ( item ); 
+      if ( this.applyFilters( item ) ) {
+        
+        if( this.searchText ) {
+          
+          if( item.name.toLowerCase().indexOf( this.searchText ) >= 0) {
+            this.screenListView.push ( item ); 
+          }
 
+        } else {
+          this.screenListView.push ( item ); 
+        }
+                
+       
         if( this.screenListView.length  > 25 ) {
           break; 
         }
-       }       
-
        
+      }       
        
      }
 
+     this.applySorting (); 
+
   }
+
+  applySorting () {
+    if( !this.sortOrder ) {
+      this.sortOrder = "asc";
+    }
+
+    if( this.sortOrder == "asc") {
+      this.screenListView.sort ( ( a, b ) => {
+        return a.index - b.index;
+      })
+    } else if ( this.sortOrder == "desc") {
+      this.screenListView.sort ( ( a, b ) => {
+        return b.index - a.index;
+      })
+    }
+
+
+  }
+
 
   appendToList ( data ) {
     for (  let i = 0 ; i < data.length; i ++) {
@@ -199,5 +273,45 @@ export class AppComponent implements OnInit {
   parseCreated ( dateStr ) {
     return moment (  dateStr ).fromNow (); 
   }
+
+
+  // Sort Order changed 
+  sortOrderChanged () {
+    this.applySorting(); 
+  }
+
+
+  subList ( list, start, end = -1 ) {
+    let arr = []; 
+    let len = list.length;
+    if( end > 0 ) {
+      len = end; 
+    } 
+
+    for (  let i = start ; i < len; i ++ ) {
+      arr.push (  list[i]); 
+    }
+    
+    return arr; 
+
+  }
+
+  toggleSpeciesFilter ( value ) {
+    this.showMoreSpecies = value;
+  }
+
+  toggleGendersFilter ( value ) {
+    this.showMoreGenders = value;
+  }
+
+  toggleOriginsFilter ( value ) {
+    this.showMoreOrigins = value;
+  }
+
+
+  searchByName () {
+     this.refreshListView (); 
+  }
+  
 
 }
