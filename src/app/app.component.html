@@ -7,13 +7,13 @@
             <div class="border-black">
                 <h5> Species </h5>
                 <div class="" *ngFor="let species of subList(speciesFilterList, 0,3) ; let i = index" > 
-                    <input  type="checkbox"   (change) ="updateSpeciesFilter(species)"/> 
+                    <input  type="checkbox"  [(ngModel)]="cbSpecies[species]" (change) ="updateSpeciesFilter(species)"/> 
                     {{ species}}
                 </div>
                 
                 <div *ngIf="showMoreSpecies">
                     <div class="" *ngFor="let species of subList(speciesFilterList, 3) ; let i = index" > 
-                        <input  type="checkbox"   (change) ="updateSpeciesFilter(species)"/> 
+                        <input  type="checkbox" [(ngModel)]="cbSpecies[species]"  (change) ="updateSpeciesFilter(species)"/> 
                         {{ species}}
                     </div> 
                 </div>
@@ -76,12 +76,13 @@
                 </div>
                 <div class="col-md-13">
                     <div class="filter-popup">
-                        <button type="button" class="btn btn-dark"
+                        <button type="button" class="btn btn-dark btn-space"
                         (click) = "deleteFilterFrom(name.name, name.value)" 
                         *ngFor="let name of selectedFilterScreen"> 
                             {{ name.value }} &nbsp; 
                             <i> x </i>
                         </button>   
+                        
                     </div>
                 </div>
           </div>  

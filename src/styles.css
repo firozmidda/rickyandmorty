@@ -5,6 +5,9 @@
     text-align:  right; 
 }
 
+.btn-space {
+    margin-right: 5px;
+}
 
 #sidebar {
     font-size: 14px; 

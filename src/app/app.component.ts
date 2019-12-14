@@ -40,6 +40,8 @@ export class AppComponent implements OnInit {
   // selected Filter Screen 
   selectedFilterScreen = [];
   
+
+  cbSpecies = []; 
   
   constructor ( private http:HttpClient, private appSvc: AppService) {
     //this.loadData (); 
@@ -67,10 +69,18 @@ export class AppComponent implements OnInit {
 
     this.refreshListView(); 
 
+   
   }
   deleteFilterFrom ( name , value ) {
+    
     if( name == "species") {
+      this.cbSpecies[value] = false; 
+      //console.log ( " CB Species ", this.cbSpecies, value  ); 
+
       this.updateSpeciesFilter ( value );
+
+      
+     // this.cbSpecies[ value ] = false; 
     } else if ( name == "gender") { 
       this.updateGenderFilter ( value );
     } else if ( name == "origin") {
@@ -177,7 +187,6 @@ export class AppComponent implements OnInit {
       }
     }
 
-    console.log ( this.selectedFilterScreen );
 
     if( filterCount == matchCount ) {
       return true; 
